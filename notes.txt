@@ -1,0 +1,1 @@
+It's really common in React to put things into an array and display them on the dom 
