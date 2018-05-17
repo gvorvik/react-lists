@@ -4,9 +4,9 @@ class PlanetList extends Component {
 
     render() {
         return (
-         <p>
-            Hello Planet List
-        </p>
+        <ul>
+            {this.props.planetList.map(planetName => <li key={planetName.name}>{planetName.name} is {planetName.diameter} in diameter</li>)}
+        </ul>
         )
     }
 }

@@ -36,6 +36,8 @@ class App extends Component {
           diameter: '76 million km',
         },
       ],
+
+      planetList: [],
     };
   }
 
@@ -56,13 +58,19 @@ class App extends Component {
   }
 
 //Equivalent of onReady()
-  componentDidMount() {
+  componentDidMount = () => {
     axios({
       method: 'GET',
       url: 'https://swapi.co/api/planets/?format=json',
     })
-    .then((results) => {
-      console.log(results.data.results);      
+    .then((response) => {
+      this.setState({
+        planetList: [
+          ...response.data.results
+        ]
+      });
+      console.log(this.state.planetList);
+      
     })
     .catch((error) => {
       console.log(error);
@@ -89,7 +97,9 @@ class App extends Component {
         <StarList 
           starList={this.state.starList}
         />
-        <PlanetList />
+        <PlanetList 
+          planetList={this.state.planetList}
+        />
       </div>
     );
   }
