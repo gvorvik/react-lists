@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Introduction from '../Introduction/Introduction';
+import NewStar from '../NewStar/NewStar'
+import StarForm from '../StarForm/starForm';
+import StarList from '../StarList/StarList';
 
 const emptyStar = {
   name: '',
@@ -32,57 +36,36 @@ class App extends Component {
   }
 
   addStar = (event) => {
+    //Prevents default action from a form submission
     event.preventDefault();
     this.setState({ starList: [...this.state.starList, this.state.newStar] });
-    console.log(this.state.newStar);
     this.setState({ newStar: emptyStar });
   };
 
   handleChange = propertyName => event => {
-      this.setState({
-        newStar: {
-          ...this.state.newStar,
-          [propertyName]: event.target.value,
-        }
-      });
-    }
-
-  // starNameChange = (event) => {
-  //   this.setState({
-  //     newStar: {
-  //       ...this.state.newStar,
-  //       name: event.target.value,
-  //     }
-  //   });
-  // }
-
-  // diameterChange = (event) => {
-  //   this.setState({
-  //     newStar: {
-  //       ...this.state.newStar,
-  //       diameter: event.target.value,
-  //     }
-  //   });
-  // }
+    this.setState({
+      newStar: {
+        ...this.state.newStar,
+        [propertyName]: event.target.value,
+      }
+    });
+  }
 
 
   render() {
 
     //For putting an array on the dom
-    let starListItemArray = this.state.starList.map(starName => <li key={starName.name}>{starName.name} is {starName.diameter} in diameter</li>);
+    // let starListItemArray = this.state.starList.map(starName => <li key={starName.name}>{starName.name} is {starName.diameter} in diameter</li>);
 
 
 
     return (
       <div>
-        <form onSubmit={this.addStar}>
-          <input value={this.state.newStar.name} onChange={this.handleChange('name')} type="text" placeholder="Star Name" />
-          <input value={this.state.newStar.diameter} onChange={this.handleChange('diameter')} type="text" placeholder="Diameter" />
-          <input type="submit" value="Submit Star" />
-        </form>
-        <ul>
-          {starListItemArray}
-        </ul>
+        <Introduction />
+        {/* props below */}
+        <NewStar newStar={this.state.newStar}/>
+        <StarForm newStar={this.state.newStar} handleChangeForChild={this.handleChange} handleAddForChild={this.addStar}/>
+        <StarList starList={this.state.starList}/>
       </div>
     );
   }

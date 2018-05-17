@@ -1,1 +1,3 @@
-It's really common in React to put things into an array and display them on the dom 
+It's really common in React to put things into an array and display them on the dom
+
+props allows us to pass from parent components to child components 
