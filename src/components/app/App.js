@@ -57,24 +57,32 @@ class App extends Component {
     });
   }
 
-//Equivalent of onReady()
+  //Equivalent of onReady()
   componentDidMount = () => {
-    axios({
-      method: 'GET',
-      url: 'https://swapi.co/api/planets/?format=json',
-    })
-    .then((response) => {
-      this.setState({
-        planetList: [
-          ...response.data.results
-        ]
-      });
-      console.log(this.state.planetList);
-      
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    this.getPlanets('https://swapi.co/api/planets/?format=json');
+  }
+
+  getPlanets = (nextUrl) => {
+    if (nextUrl) {
+      axios({
+        method: 'GET',
+        url: nextUrl,
+      })
+        .then((response) => {
+          console.log(response);
+          this.setState({
+            planetList: [
+              ...this.state.planetList,
+              ...response.data.results
+            ]
+          });
+          console.log(this.state.planetList);
+          this.getPlanets(response.data.next);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 
   render() {
@@ -86,18 +94,18 @@ class App extends Component {
       <div>
         <Introduction />
         {/* props below */}
-        <NewStar 
+        <NewStar
           newStar={this.state.newStar}
         />
-        <StarForm 
-          newStar={this.state.newStar} 
-          handleChangeForChild={this.handleChange} 
+        <StarForm
+          newStar={this.state.newStar}
+          handleChangeForChild={this.handleChange}
           handleAddForChild={this.addStar}
         />
-        <StarList 
+        <StarList
           starList={this.state.starList}
         />
-        <PlanetList 
+        <PlanetList
           planetList={this.state.planetList}
         />
       </div>
